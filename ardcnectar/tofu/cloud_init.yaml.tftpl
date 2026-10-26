@@ -85,7 +85,7 @@ runcmd:
   - systemctl enable docker
   - systemctl start docker
   - usermod -aG docker ubuntu
-  - git clone https://github.com/rtubelleza/wtx_viewer_cloud /opt/wtx_viewer
+  - git clone https://github.com/${github_owner}/${github_repository} /opt/wtx_viewer
   - mv /opt/app_credentials.env /opt/wtx_viewer/app_credentials.env
   - chown -R ubuntu:ubuntu /opt/wtx_viewer
   - /opt/scripts/02_get_cert.sh
