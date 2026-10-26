@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: data_config/Dockerfile
     env_file: "/opt/wtx_viewer/app_credentials.env"
+    restart: unless-stopped
 
   viewer_app:
     build:
@@ -27,3 +28,4 @@ services:
       - /opt/wtx_viewer/vitessce_config/config.json:/usr/share/nginx/html/config.json:ro
     depends_on:
       - data_store
+    restart: unless-stopped
