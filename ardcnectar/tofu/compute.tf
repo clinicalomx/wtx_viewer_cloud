@@ -49,14 +49,16 @@ resource "openstack_compute_instance_v2" "viewer" {
 
   # rendered cloud-init. env vars injected 
   user_data = templatefile("${path.module}/cloud_init.yaml.tftpl", {
-    os_auth_url     = var.app_cred_auth_url
-    os_project_id   = data.openstack_identity_auth_scope_v3.current.project_id
-    app_cred_id     = openstack_identity_application_credential_v3.app.id
-    app_cred_secret = openstack_identity_application_credential_v3.app.secret
-    app_domain      = local.app_fqdn
-    admin_email     = var.admin_email
-    ssh_public_keys = var.extra_ssh_authorized_keys
-    swift_container = var.swift_container
+    os_auth_url       = var.app_cred_auth_url
+    os_project_id     = data.openstack_identity_auth_scope_v3.current.project_id
+    app_cred_id       = openstack_identity_application_credential_v3.app.id
+    app_cred_secret   = openstack_identity_application_credential_v3.app.secret
+    app_domain        = local.app_fqdn
+    admin_email       = var.admin_email
+    ssh_public_keys   = var.extra_ssh_authorized_keys
+    swift_container   = var.swift_container
+    github_owner      = var.github_owner
+    github_repository = var.github_repository
   })
 
   # cd keeps this updated. 

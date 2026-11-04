@@ -91,7 +91,7 @@ variable "manage_github_secrets" {
 variable "github_owner" {
   description = "GitHub account/org that owns the repo."
   type        = string
-  default     = "rtubelleza"
+  default     = "clinicalomx"
 }
 
 variable "github_repository" {

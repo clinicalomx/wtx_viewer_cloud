@@ -140,15 +140,18 @@ jobs:
             docker compose up --build -d --wait
           EOF
 
-      # confirm the app is responding over HTTPS
+      # confirm the app and the data store both respond over HTTPS
+      # /zarr/.zgroup goes through data_store to Swift, so a data outage fails here
       - name: Health check
         run: |
           sleep 5
-          curl --fail --silent --max-time 30 \
-            https://${{ steps.vm.outputs.fqdn }} \
-            -o /dev/null \
-            && echo "Health check passed" \
-            || (echo "Health check failed" && exit 1)
+          for path in / /zarr/.zgroup; do
+            code=$(curl --silent --max-time 30 -o /dev/null -w '%{http_code}' \
+              "https://${{ steps.vm.outputs.fqdn }}${path}") || true
+            echo "${path} -> ${code}"
+            [ "${code}" = "200" ] || { echo "Health check failed"; exit 1; }
+          done
+          echo "Health check passed"
 
       # rollback to previous commit if deploy or health check failed
       - name: Rollback to previous commit
